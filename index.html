@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+
+	<body>
+	</body>
+	<script type="text/javascript">
+		var n = prompt("what's your level?");
+		n = Number(n);
+		//存放两个初始颜色
+		var a = "black";
+		var b = "yellow";
+		//创建游戏背景
+		var mybody = document.getElementsByTagName('body')[0]
+		var mybox = document.createElement('div');
+		mybox.style.margin = 'auto';
+		mybox.style.width = n * 60 + n * 2 * 2 + 'px';
+		mybox.style.background = "#F5F5F5";
+		mybody.appendChild(mybox);
+		//创建灯 存入一维数组arr[];
+		var arr = [];
+		for (i = 0; i < n * n; i++) {
+			var light = document.createElement('div');
+			//规定light样式
+			light.style.width = "60px";
+			light.style.height = "60px";
+			light.style.backgroundColor = a;
+			light.style.boxShadow = "5px 5px 5px gray";
+			light.style.borderRadius = "10px";
+			light.style.margin = "2px";
+			light.style.display = "inline-block";
+			light.id = i;
+			arr.push(light);
+			mybox.appendChild(light);
+			//			arr[i] = document.getElementById("i");
+			light.onclick = changecolor;
+		}
+		//		console.log(arr);
+		//创建重置按钮
+		var btn = document.createElement("input");
+		mybox.appendChild(btn);
+		btn.type = "submit";
+		btn.value = "重置";
+		btn.style.width = "80px";
+		btn.style.fontSize = "24px";
+		btn.style.position = "relative";
+		btn.style.left = "50%";
+		btn.style.marginLeft = "-40px";
+		btn.style.top = "30px";
+		btn.onclick = myreset;
+		//变色
+		function changecolor() {
+			//改变自身
+			this.style.backgroundColor == a ? this.style.backgroundColor = b : this.style.backgroundColor = a;
+			var num = Number(this.id);
+			//判断右边是否有元素，并改变颜色
+			if (num % n != (n - 1)) {
+				if (arr[num + 1].style.backgroundColor == a) {
+					arr[num + 1].style.backgroundColor = b;
+				} else {
+					arr[num + 1].style.backgroundColor = a;
+				}
+			}
+			//判断左边是否有元素，并改变颜色
+			if (num % n != 0) {
+				if (arr[num - 1].style.backgroundColor == a) {
+					arr[num - 1].style.backgroundColor = b;
+				} else {
+					arr[num - 1].style.backgroundColor = a;
+				}
+			}
+			//判断下面是否有元素，并改变颜色
+			if (0 <= num && num <= (n * (n - 1) - 1)) {
+				if (arr[num + n].style.backgroundColor == a) {
+					arr[num + n].style.backgroundColor = b;
+				} else {
+					arr[num + n].style.backgroundColor = a;
+				}
+			}
+			//判断上面是否有元素，并改颜色
+			if (num >= n && num <= (n * n - 1)) {
+				if (arr[num - n].style.backgroundColor == a) {
+					arr[num - n].style.backgroundColor = b;
+				} else {
+					arr[num - n].style.backgroundColor = a;
+				}
+			}
+			//判断是否通关
+			//定义count 存放点亮的灯数
+			//每次执行changecolor，遍历一次数组，计算count的值
+			var count = 0;
+			count = Number(count);
+			for (var i = 0; i < arr.length; i++) {
+				if (arr[i].style.backgroundColor == b)
+					count++;
+			}
+			//console.log(count);
+			if (count == n * n) {
+				alert("这你都能通关= = 你是有多无聊");
+			}
+		}
+		//重置
+		function myreset() {
+			for (var i = 0; i < arr.length; i++) {
+				arr[i].style.backgroundColor = a
+			}
+		}
+	</script>
+
+</html>
